@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
             val json = CoindeskService(ClientProvider()).create(CurrentPriceApi::class.java)
                 .getCurrentPrice()
 
-            findViewById<TextView>(R.id.text).text = json
+            findViewById<TextView>(R.id.text).text = json.toString()
         }
     }
 
