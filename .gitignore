@@ -1,0 +1,24 @@
+# Mac OS
+.DS_Store
+
+# Android
+local.properties
+captures
+
+# Gradle
+.gradle
+build
+
+# IntelliJ IDEA
+*.iml
+.idea/*
+
+# VS Code
+.classpath
+.project
+.settings
+.factorypath
+
+# External repos
+libs
+gradle/scripts
