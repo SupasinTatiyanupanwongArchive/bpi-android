@@ -10,5 +10,5 @@ data class CurrentPriceJson(
     @SerializedName("chartName")
     val chartName: String?,
     @SerializedName("bpi")
-    val bpi: BpisJson?
+    val bpi: BpiJson?
 )
