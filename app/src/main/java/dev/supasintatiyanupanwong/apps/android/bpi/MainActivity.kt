@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import dev.supasintatiyanupanwong.apps.android.bpi.base.data.services.ClientProvider
 import dev.supasintatiyanupanwong.apps.android.bpi.base.data.services.CoindeskService
-import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.services.CurrentPriceApi
+import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.apis.CurrentPriceApi
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {

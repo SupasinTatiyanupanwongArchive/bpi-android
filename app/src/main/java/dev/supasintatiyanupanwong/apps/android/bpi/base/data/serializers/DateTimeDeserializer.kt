@@ -4,8 +4,8 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import dev.supasintatiyanupanwong.apps.android.bpi.base.data.utils.ThreadSafeDateFormat
+import dev.supasintatiyanupanwong.apps.android.bpi.tryOrNull
 import java.lang.reflect.Type
-import java.text.ParseException
 
 open class DateTimeDeserializer(
     pattern: String,
@@ -19,11 +19,7 @@ open class DateTimeDeserializer(
         typeOfT: Type?,
         context: JsonDeserializationContext?
     ): Long? {
-        return try {
-            return format.parse(json?.asString)?.time
-        } catch (_: ParseException) {
-            null
-        }
+        return tryOrNull { format.parse(json?.asString)?.time }
     }
 
 }
