@@ -8,3 +8,12 @@ inline fun <T : Any> tryOrNull(crossinline body: () -> T?): T? {
         null
     }
 }
+
+suspend inline fun <T : Any> suspendTryOrNull(crossinline body: suspend () -> T?): T? {
+    return try {
+        body()
+    } catch (ex: Exception) {
+        ex.printStackTrace()
+        null
+    }
+}

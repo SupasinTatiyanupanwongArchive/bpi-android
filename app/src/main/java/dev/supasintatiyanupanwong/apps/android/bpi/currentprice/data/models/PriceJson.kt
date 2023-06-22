@@ -5,6 +5,6 @@ import com.google.gson.annotations.SerializedName
 data class PriceJson(
     @SerializedName("code")
     val code: String?,
-    @SerializedName("rate")
-    val rate: String?
+    @SerializedName("rate_float")
+    val rate: Double?
 )
