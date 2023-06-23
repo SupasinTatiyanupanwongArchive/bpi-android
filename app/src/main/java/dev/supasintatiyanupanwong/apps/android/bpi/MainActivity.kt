@@ -4,12 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
-import dev.supasintatiyanupanwong.apps.android.bpi.base.data.services.ClientProvider
-import dev.supasintatiyanupanwong.apps.android.bpi.base.data.services.CoindeskService
-import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.apis.CurrentPriceApi
+import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.CurrentPriceRepository
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
+
+    private val currentPriceRepository: CurrentPriceRepository by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,10 +18,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         lifecycleScope.launch {
-            val json = CoindeskService(ClientProvider()).create(CurrentPriceApi::class.java)
-                .getCurrentPrice()
+            currentPriceRepository.fetchCurrentPrice()
 
-            findViewById<TextView>(R.id.text).text = json.toString()
+            findViewById<TextView>(R.id.text)
+                .text = currentPriceRepository.getCurrentPrice().toString()
         }
     }
 
