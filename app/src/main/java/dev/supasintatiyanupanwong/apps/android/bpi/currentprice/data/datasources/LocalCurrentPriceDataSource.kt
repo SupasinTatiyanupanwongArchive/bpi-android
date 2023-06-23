@@ -4,13 +4,15 @@ import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.domain.models.Pr
 
 class LocalCurrentPriceDataSource {
 
-    private var tmp: List<PriceInfo>? = null
+    private var tmp: Pair<Long, List<PriceInfo>>? = null
 
-    fun save(data: List<PriceInfo>) {
+    fun save(data: Pair<Long, List<PriceInfo>>?) {
+        if (data == null) return
+
         tmp = data
     }
 
-    fun peek(): List<PriceInfo>? {
+    fun peek(): Pair<Long, List<PriceInfo>>? {
         return tmp
     }
 

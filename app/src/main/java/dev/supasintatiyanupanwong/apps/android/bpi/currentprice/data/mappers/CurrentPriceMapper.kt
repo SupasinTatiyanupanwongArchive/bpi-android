@@ -7,12 +7,13 @@ import java.util.Currency
 
 class CurrentPriceMapper {
 
-    fun transform(json: CurrentPriceJson?): List<PriceInfo> {
-        json ?: return emptyList()
+    fun transform(json: CurrentPriceJson?): Pair<Long, List<PriceInfo>>? {
+        json ?: return null
 
-        val bpi = json.bpi ?: return emptyList()
+        val timeMillis = json.time?.updatedAt ?: return null
+        val bpi = json.bpi ?: return null
 
-        return mutableListOf<PriceInfo>().apply {
+        return timeMillis to mutableListOf<PriceInfo>().apply {
             transformPriceJsonToPriceDomain(bpi.usd)?.also { this += it }
             transformPriceJsonToPriceDomain(bpi.gbp)?.also { this += it }
             transformPriceJsonToPriceDomain(bpi.eur)?.also { this += it }

@@ -18,7 +18,7 @@ class CurrentPriceRepository(
     }
 
     fun getCurrentPrice(): List<PriceInfo>? {
-        return localCurrentPriceDataSource.peek()
+        return localCurrentPriceDataSource.peek()?.second
     }
 
 }
