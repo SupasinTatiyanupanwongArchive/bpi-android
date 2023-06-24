@@ -3,8 +3,9 @@ package dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data
 import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.datasources.LocalCurrentPriceDataSource
 import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.datasources.NetworkCurrentPriceDataSource
 import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.mappers.CurrentPriceMapper
-import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.domain.models.PriceInfo
+import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.domain.models.PriceRecord
 import dev.supasintatiyanupanwong.apps.android.bpi.suspendTryOrNull
+import kotlinx.coroutines.flow.Flow
 
 class CurrentPriceRepository(
     private val localCurrentPriceDataSource: LocalCurrentPriceDataSource,
@@ -17,8 +18,8 @@ class CurrentPriceRepository(
         localCurrentPriceDataSource.save(currentPriceMapper.transform(res))
     }
 
-    fun getCurrentPrice(): List<PriceInfo>? {
-        return localCurrentPriceDataSource.peek()?.second
+    fun observeCurrentPrice(): Flow<PriceRecord?> {
+        return localCurrentPriceDataSource.observeCurrentPrice()
     }
 
 }

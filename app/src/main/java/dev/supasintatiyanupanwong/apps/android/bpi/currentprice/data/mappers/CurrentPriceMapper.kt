@@ -3,21 +3,25 @@ package dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.mappers
 import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.models.CurrentPriceJson
 import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.models.PriceJson
 import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.domain.models.PriceInfo
+import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.domain.models.PriceRecord
 import java.util.Currency
 
 class CurrentPriceMapper {
 
-    fun transform(json: CurrentPriceJson?): Pair<Long, List<PriceInfo>>? {
+    fun transform(json: CurrentPriceJson?): PriceRecord? {
         json ?: return null
 
         val timeMillis = json.time?.updatedAt ?: return null
         val bpi = json.bpi ?: return null
 
-        return timeMillis to mutableListOf<PriceInfo>().apply {
-            transformPriceJsonToPriceDomain(bpi.usd)?.also { this += it }
-            transformPriceJsonToPriceDomain(bpi.gbp)?.also { this += it }
-            transformPriceJsonToPriceDomain(bpi.eur)?.also { this += it }
-        }
+        return PriceRecord(
+            timeMillis = timeMillis,
+            prices = mutableListOf<PriceInfo>().apply {
+                transformPriceJsonToPriceDomain(bpi.usd)?.also { this += it }
+                transformPriceJsonToPriceDomain(bpi.gbp)?.also { this += it }
+                transformPriceJsonToPriceDomain(bpi.eur)?.also { this += it }
+            }
+        )
     }
 
     private fun transformPriceJsonToPriceDomain(json: PriceJson?): PriceInfo? {
