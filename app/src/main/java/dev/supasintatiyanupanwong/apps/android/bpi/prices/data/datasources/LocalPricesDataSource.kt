@@ -1,12 +1,12 @@
-package dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.datasources
+package dev.supasintatiyanupanwong.apps.android.bpi.prices.data.datasources
 
-import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.storages.PricesPreferencesStorage
-import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.domain.models.PriceRecord
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.storages.PricesPreferencesStorage
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.models.PriceRecord
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
 
-class LocalCurrentPriceDataSource(private val pricesPreferencesStorage: PricesPreferencesStorage) {
+class LocalPricesDataSource(private val pricesPreferencesStorage: PricesPreferencesStorage) {
 
     private val recordsFlow = MutableStateFlow(pricesPreferencesStorage.records)
 

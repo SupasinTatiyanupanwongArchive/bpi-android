@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.CurrentPriceRepository
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.PricesRepository
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -15,7 +15,7 @@ import java.text.DecimalFormat
 
 class MainActivity : AppCompatActivity() {
 
-    private val currentPriceRepository: CurrentPriceRepository by inject()
+    private val pricesRepository: PricesRepository by inject()
 
     private val format = DecimalFormat()
 
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        currentPriceRepository.observeCurrentPrice()
+        pricesRepository.observeCurrentPrice()
             .flowWithLifecycle(lifecycle)
             .onEach { record ->
                 val firstPrice = record?.prices?.getOrNull(0)
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun invalidate() {
         lifecycleScope.launch {
-            currentPriceRepository.fetchCurrentPrice()
+            pricesRepository.fetchCurrentPrice()
             findViewById<SwipeRefreshLayout>(R.id.refresh_layout).isRefreshing = false
         }
     }

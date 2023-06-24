@@ -1,4 +1,4 @@
-package dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.models
+package dev.supasintatiyanupanwong.apps.android.bpi.prices.data.models
 
 import com.google.gson.annotations.SerializedName
 

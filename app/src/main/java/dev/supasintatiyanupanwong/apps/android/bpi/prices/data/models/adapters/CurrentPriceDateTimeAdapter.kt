@@ -1,4 +1,4 @@
-package dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.models.adapters
+package dev.supasintatiyanupanwong.apps.android.bpi.prices.data.models.adapters
 
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer

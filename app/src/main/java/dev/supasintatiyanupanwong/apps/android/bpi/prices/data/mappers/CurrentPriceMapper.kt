@@ -1,9 +1,9 @@
-package dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.mappers
+package dev.supasintatiyanupanwong.apps.android.bpi.prices.data.mappers
 
-import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.models.CurrentPriceJson
-import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.models.PriceJson
-import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.domain.models.PriceInfo
-import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.domain.models.PriceRecord
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.models.CurrentPriceJson
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.models.PriceJson
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.models.PriceInfo
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.models.PriceRecord
 import java.util.Currency
 
 class CurrentPriceMapper {

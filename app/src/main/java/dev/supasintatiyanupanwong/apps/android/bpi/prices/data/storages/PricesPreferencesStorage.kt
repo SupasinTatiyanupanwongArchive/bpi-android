@@ -1,11 +1,11 @@
-package dev.supasintatiyanupanwong.apps.android.bpi.currentprice.data.storages
+package dev.supasintatiyanupanwong.apps.android.bpi.prices.data.storages
 
 import android.app.Application
 import androidx.core.content.edit
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dev.supasintatiyanupanwong.apps.android.bpi.base.data.BasePreferences
-import dev.supasintatiyanupanwong.apps.android.bpi.currentprice.domain.models.PriceRecord
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.models.PriceRecord
 
 class PricesPreferencesStorage(
     application: Application,
