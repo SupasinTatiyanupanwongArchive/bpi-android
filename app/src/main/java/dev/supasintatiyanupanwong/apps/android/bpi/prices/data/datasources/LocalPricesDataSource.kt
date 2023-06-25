@@ -8,14 +8,14 @@ import kotlinx.coroutines.flow.map
 
 class LocalPricesDataSource(private val pricesPreferencesStorage: PricesPreferencesStorage) {
 
-    private val recordsFlow = MutableStateFlow(pricesPreferencesStorage.records)
+    private val recordsFlow = MutableStateFlow(value = pricesPreferencesStorage.records)
 
     // Optimise list reading and writing
     private var latestTimeMillis = recordsFlow.value?.maxByOrNull { it.timeMillis } ?: -1L
 
-    fun observeRecords() = recordsFlow.asSharedFlow()
+    fun observePriceRecords() = recordsFlow.asSharedFlow()
 
-    fun observeCurrentPrice() = observeRecords()
+    fun observeCurrentPrice() = observePriceRecords()
         .map { records -> records?.find { it.timeMillis == latestTimeMillis } }
 
     fun save(data: PriceRecord?) {
