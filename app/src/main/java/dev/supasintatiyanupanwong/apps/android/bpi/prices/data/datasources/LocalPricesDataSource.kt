@@ -1,7 +1,7 @@
 package dev.supasintatiyanupanwong.apps.android.bpi.prices.data.datasources
 
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.storages.PricesPreferencesStorage
-import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.models.PriceRecord
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.models.PricesRecord
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
@@ -18,7 +18,7 @@ class LocalPricesDataSource(private val pricesPreferencesStorage: PricesPreferen
     fun observeCurrentPrice() = observePriceRecords()
         .map { records -> records?.find { it.timeMillis == latestTimeMillis } }
 
-    fun save(data: PriceRecord?) {
+    fun save(data: PricesRecord?) {
         if (data == null) return
 
         if (data.timeMillis == latestTimeMillis) return // Duplicate record
