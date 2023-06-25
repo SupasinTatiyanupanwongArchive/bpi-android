@@ -2,7 +2,9 @@ package dev.supasintatiyanupanwong.apps.android.bpi
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -36,6 +38,13 @@ class MainActivity : AppCompatActivity() {
             .launchIn(lifecycleScope)
 
         findViewById<SwipeRefreshLayout>(R.id.refresh_layout).setOnRefreshListener { invalidate() }
+
+        findViewById<View>(R.id.currency_select).setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Select Currency")
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
+        }
 
         invalidate()
     }
