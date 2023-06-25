@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import dev.supasintatiyanupanwong.apps.android.bpi.currencies.ui.CurrencyCodePickerDialog
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.PricesRepository
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -39,12 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<SwipeRefreshLayout>(R.id.refresh_layout).setOnRefreshListener { invalidate() }
 
-        findViewById<View>(R.id.currency_select).setOnClickListener {
-            AlertDialog.Builder(this)
-                .setTitle("Select Currency")
-                .setNegativeButton(android.R.string.cancel, null)
-                .show()
-        }
+        findViewById<View>(R.id.currency_select).setOnClickListener { CurrencyCodePickerDialog.show(this) }
 
         invalidate()
     }
