@@ -17,7 +17,12 @@ object CurrencyCodePickerDialog : KoinComponent {
     private val getSelectedCurrencyCodeUseCase: GetSelectedCurrencyCodeUseCase by inject()
     private val setSelectedCurrencyCodeUseCase: SetSelectedCurrencyCodeUseCase by inject()
 
+    private var isShowing = false // Prevent multiple instances of dialog in case of spamming
+
     fun show(context: Context) {
+        if (isShowing) return
+        isShowing = true
+
         val currencies = getCurrenciesUseCase().orEmpty()
 
         val items = currencies.map { it.currencyCode }.toTypedArray()
@@ -43,6 +48,7 @@ object CurrencyCodePickerDialog : KoinComponent {
             if (currCheckedItem != initCheckedItem) {
                 setSelectedCurrencyCodeUseCase(items.getOrNull(currCheckedItem))
             }
+            isShowing = false
         }
         dialog.show()
     }
