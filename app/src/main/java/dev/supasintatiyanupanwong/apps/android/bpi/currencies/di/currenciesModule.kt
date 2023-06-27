@@ -11,7 +11,7 @@ import dev.supasintatiyanupanwong.apps.android.bpi.currencies.domain.usecases.Se
 import org.koin.dsl.module
 
 val currenciesModule = module {
-    single { CurrenciesDataSource(get()) }
+    single { CurrenciesDataSource(get(), get()) }
     single { SelectedCurrencyCodeDataSource(get()) }
 
     single { CurrenciesPreferences(get(), get()) }
