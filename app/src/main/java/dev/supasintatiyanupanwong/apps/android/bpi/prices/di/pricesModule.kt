@@ -21,7 +21,7 @@ val pricesModule = module {
     single { LocalPricesDataSource(get()) }
     single { NetworkCurrentPriceDataSource(get()) }
 
-    single { CurrentPriceMapper() }
+    single { CurrentPriceMapper(get()) }
 
     single { PricesPreferencesStorage(get(), get()) }
 

@@ -2,6 +2,7 @@ package dev.supasintatiyanupanwong.apps.android.bpi.app
 
 import android.app.Application
 import dev.supasintatiyanupanwong.apps.android.bpi.currencies.di.currenciesModule
+import dev.supasintatiyanupanwong.apps.android.bpi.math.di.mathModule
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.di.pricesModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -17,6 +18,7 @@ class Application : Application() {
             androidContext(this@Application)
             modules(
                 currenciesModule,
+                mathModule,
                 pricesModule
             )
         }

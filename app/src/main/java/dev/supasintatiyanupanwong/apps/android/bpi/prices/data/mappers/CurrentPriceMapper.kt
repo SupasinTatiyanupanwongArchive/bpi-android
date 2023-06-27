@@ -1,12 +1,13 @@
 package dev.supasintatiyanupanwong.apps.android.bpi.prices.data.mappers
 
+import dev.supasintatiyanupanwong.apps.android.bpi.math.domain.utils.BigDecimalFormat
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.models.CurrentPriceJson
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.models.PriceJson
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.models.PriceInfo
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.models.PricesRecord
 import java.util.Currency
 
-class CurrentPriceMapper {
+class CurrentPriceMapper(private val format: BigDecimalFormat) {
 
     fun transform(json: CurrentPriceJson?): PricesRecord? {
         json ?: return null
@@ -34,7 +35,7 @@ class CurrentPriceMapper {
         val rate = json.rate ?: return null
 
         return try {
-            PriceInfo(Currency.getInstance(code), rate)
+            PriceInfo(Currency.getInstance(code), format.parse(rate))
         } catch (ex: Exception) {
             null // Fail-safe for invalid code from API
         }
