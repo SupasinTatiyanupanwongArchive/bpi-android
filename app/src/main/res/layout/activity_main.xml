@@ -95,7 +95,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        app:contentInsetStart="24dp"
         app:fabAlignmentMode="end">
+
+        <dev.supasintatiyanupanwong.apps.android.bpi.prices.ui.widgets.ConversionView
+            android:id="@+id/conversion_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="12dp"
+            android:layout_marginEnd="108dp" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 

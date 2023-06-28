@@ -11,6 +11,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dev.supasintatiyanupanwong.apps.android.bpi.currencies.domain.usecases.ObserveSelectedCurrencyCodeUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.currencies.ui.CurrencyCodePickerDialog
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.PricesRepository
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.ui.widgets.ConversionView
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -41,6 +42,8 @@ class MainActivity : AppCompatActivity() {
                     "BTC/${price?.currency?.currencyCode}"
                 findViewById<TextView>(R.id.price).text =
                     price?.let { "${it.currency.symbol} ${format.format(it.value)}" }
+
+                findViewById<ConversionView>(R.id.conversion_view).sourcePrice = price
             }
             .launchIn(lifecycleScope)
 
