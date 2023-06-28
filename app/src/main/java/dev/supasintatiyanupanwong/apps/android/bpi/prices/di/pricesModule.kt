@@ -9,7 +9,9 @@ import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.datasources.Local
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.datasources.NetworkCurrentPriceDataSource
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.mappers.CurrentPriceMapper
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.storages.PricesPreferencesStorage
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.FetchCurrentPriceUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.FormatPriceUseCase
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.ObserveCurrentPriceUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.ParsePriceUseCase
 import org.koin.dsl.module
 
@@ -29,6 +31,8 @@ val pricesModule = module {
 
     single { PricesRepository(get(), get(), get()) }
 
+    factory { FetchCurrentPriceUseCase(get()) }
     factory { FormatPriceUseCase(get()) }
+    factory { ObserveCurrentPriceUseCase(get()) }
     factory { ParsePriceUseCase(get()) }
 }

@@ -1,17 +1,17 @@
 package dev.supasintatiyanupanwong.apps.android.bpi
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dev.supasintatiyanupanwong.apps.android.bpi.currencies.domain.usecases.ObserveSelectedCurrencyCodeUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.currencies.ui.CurrencyCodePickerDialog
-import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.PricesRepository
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.FetchCurrentPriceUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.FormatPriceUseCase
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.ObserveCurrentPriceUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.ui.widgets.ConversionView
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
@@ -21,7 +21,8 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
 
-    private val pricesRepository: PricesRepository by inject()
+    private val fetchCurrentPriceUseCase: FetchCurrentPriceUseCase by inject()
+    private val observeCurrentPriceUseCase: ObserveCurrentPriceUseCase by inject()
 
     private val observeSelectedCurrencyCodeUseCase: ObserveSelectedCurrencyCodeUseCase by inject()
 
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        pricesRepository.observeCurrentPrice()
+        observeCurrentPriceUseCase()
             .combine(observeSelectedCurrencyCodeUseCase()) { record, currencyCode ->
                 record?.prices?.find { it.currency.currencyCode == currencyCode }
             }
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun invalidate() {
         lifecycleScope.launch {
-            pricesRepository.fetchCurrentPrice()
+            fetchCurrentPriceUseCase()
             findViewById<SwipeRefreshLayout>(R.id.refresh_layout).isRefreshing = false
         }
     }
