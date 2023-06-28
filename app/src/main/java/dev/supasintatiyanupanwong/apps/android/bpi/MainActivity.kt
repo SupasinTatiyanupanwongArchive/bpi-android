@@ -11,13 +11,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dev.supasintatiyanupanwong.apps.android.bpi.currencies.domain.usecases.ObserveSelectedCurrencyCodeUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.currencies.ui.CurrencyCodePickerDialog
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.PricesRepository
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.FormatPriceUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.ui.widgets.ConversionView
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import java.text.DecimalFormat
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     private val observeSelectedCurrencyCodeUseCase: ObserveSelectedCurrencyCodeUseCase by inject()
 
-    private val format = DecimalFormat()
+    private val formatPriceUseCase: FormatPriceUseCase by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                 findViewById<TextView>(R.id.conversion_type).text =
                     "BTC/${price?.currency?.currencyCode}"
                 findViewById<TextView>(R.id.price).text =
-                    price?.let { "${it.currency.symbol} ${format.format(it.value)}" }
+                    price?.let { "${it.currency.symbol} ${formatPriceUseCase(it.value)}" }
 
                 findViewById<ConversionView>(R.id.conversion_view).sourcePrice = price
             }

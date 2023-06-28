@@ -5,9 +5,10 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import dev.supasintatiyanupanwong.apps.android.bpi.attach
 import dev.supasintatiyanupanwong.apps.android.bpi.databinding.PricesConversionViewBinding
-import dev.supasintatiyanupanwong.apps.android.bpi.math.domain.utils.BigDecimalFormat
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.models.PriceInfo
-import dev.supasintatiyanupanwong.apps.android.bpi.prices.ui.DecimalFormatTextWatcher
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.FormatPriceUseCase
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.ParsePriceUseCase
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.ui.PriceFormatTextWatcher
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.math.RoundingMode
@@ -20,7 +21,8 @@ class ConversionView @JvmOverloads constructor(
 
     private val binding = attach(PricesConversionViewBinding::inflate)
 
-    private val format: BigDecimalFormat by inject()
+    private val formatPriceUseCase: FormatPriceUseCase by inject()
+    private val parsePriceUseCase: ParsePriceUseCase by inject()
 
     var sourcePrice by Delegates.observable<PriceInfo?>(null) { _, _, _ ->
         invalidateSourcePriceView()
@@ -31,7 +33,9 @@ class ConversionView @JvmOverloads constructor(
         orientation = VERTICAL
 
         binding.src.addTextChangedListener(
-            DecimalFormatTextWatcher(binding.src, format) { invalidateDestinationPriceView() }
+            PriceFormatTextWatcher(binding.src, formatPriceUseCase, parsePriceUseCase) {
+                invalidateDestinationPriceView()
+            }
         )
     }
 
@@ -47,13 +51,13 @@ class ConversionView @JvmOverloads constructor(
             return
         }
 
-        val src = format.parse(srcString)
+        val src = parsePriceUseCase(srcString)
         val price = sourcePrice?.value
         binding.dst.setText(
             if (price == null) {
                 "NaN"
             } else {
-                format.format(src.divide(price, 2, RoundingMode.HALF_EVEN))
+                formatPriceUseCase(src.divide(price, 2, RoundingMode.HALF_EVEN))
             }
         )
     }

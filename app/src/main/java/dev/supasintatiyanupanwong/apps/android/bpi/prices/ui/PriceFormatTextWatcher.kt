@@ -5,11 +5,13 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.TextView
-import java.text.DecimalFormat
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.FormatPriceUseCase
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.ParsePriceUseCase
 
-class DecimalFormatTextWatcher(
+class PriceFormatTextWatcher(
     private val delegate: TextView,
-    private val format: DecimalFormat,
+    private val formatPriceUseCase: FormatPriceUseCase,
+    private val parsePriceUseCase: ParsePriceUseCase,
     private val doAfterTextChanged: ((Editable?) -> Unit)? = null
 ) : TextWatcher {
 
@@ -22,10 +24,12 @@ class DecimalFormatTextWatcher(
     override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {}
 
     override fun afterTextChanged(text: Editable?) {
+        text ?: return
+
         delegate.removeTextChangedListener(this)
 
         try {
-            delegate.text = format.format(format.parse(text.toString()))
+            delegate.text = formatPriceUseCase(parsePriceUseCase(text.toString()))
             doAfterTextChanged?.invoke(text)
             if (delegate is EditText) {
                 delegate.setSelection(delegate.text.length)
@@ -35,4 +39,5 @@ class DecimalFormatTextWatcher(
 
         delegate.addTextChangedListener(this)
     }
+
 }
