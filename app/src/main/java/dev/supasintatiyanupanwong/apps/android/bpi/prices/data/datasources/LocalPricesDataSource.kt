@@ -4,25 +4,26 @@ import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.storages.PricesPr
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.models.PricesRecord
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.map
 
 class LocalPricesDataSource(private val pricesPreferencesStorage: PricesPreferencesStorage) {
 
-    private val recordsFlow = MutableStateFlow(value = pricesPreferencesStorage.records)
+    private val recordsFlow = MutableStateFlow(pricesPreferencesStorage.records)
 
-    // Optimise list reading and writing
-    private var latestTimeMillis = recordsFlow.value?.maxByOrNull { it.timeMillis } ?: -1L
+    // Dedicated flow for current price to optimise list reading and writing
+    private val currentFlow = MutableStateFlow(recordsFlow.value?.maxByOrNull { it.timeMillis })
 
     fun observePriceRecords() = recordsFlow.asSharedFlow()
 
-    fun observeCurrentPrice() = observePriceRecords()
-        .map { records -> records?.find { it.timeMillis == latestTimeMillis } }
+    fun observeCurrentPrice() = currentFlow.asSharedFlow()
 
     fun save(data: PricesRecord?) {
         if (data == null) return
 
-        if (data.timeMillis == latestTimeMillis) return // Duplicate record
-        latestTimeMillis = data.timeMillis
+        if (data.timeMillis == currentFlow.value?.timeMillis) return // Duplicate record
+
+        if (data.timeMillis > (currentFlow.value?.timeMillis ?: 0L)) {
+            currentFlow.value = data
+        }
 
         val existing = pricesPreferencesStorage.records.orEmpty()
         pricesPreferencesStorage.records = existing.toMutableList()
