@@ -5,21 +5,20 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
+import androidx.core.view.doOnPreDraw
+import androidx.core.view.updatePadding
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import dev.supasintatiyanupanwong.apps.android.bpi.base.ui.BaseActivity
 import dev.supasintatiyanupanwong.apps.android.bpi.currencies.ui.CurrencyCodePickerDialog
 import dev.supasintatiyanupanwong.apps.android.bpi.databinding.ActivityMainBinding
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.ui.PricesViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
+// TODO PricesActivity
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private val viewModel: PricesViewModel by viewModel()
 
@@ -28,10 +27,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = inflate(ActivityMainBinding::inflate)
-
         binding {
-            setContentView(root)
+            bottomBar {
+                doOnPreDraw {
+                    scroll.updatePadding(bottom = it.height)
+                }
+            }
 
             chart {
                 isScaleXEnabled = false
@@ -128,6 +129,7 @@ fun Context.attrColorOf(@AttrRes attrId: Int): Int {
     return color
 }
 
+// Mimicking DSL
 inline operator fun <T> T.invoke(crossinline action: T.() -> Unit): T {
     action()
     return this
