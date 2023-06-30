@@ -4,14 +4,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import dev.supasintatiyanupanwong.apps.android.bpi.currencies.domain.usecases.ObserveSelectedCurrencyCodeUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.currencies.ui.CurrencyCodePickerDialog
 import dev.supasintatiyanupanwong.apps.android.bpi.databinding.ActivityMainBinding
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.models.PriceInfo
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.FetchCurrentPriceUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.FormatPriceUseCase
-import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.ObserveCurrentPriceUseCase
-import kotlinx.coroutines.flow.combine
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.ObserveCurrentPriceOfSelectedCurrencyUseCase
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -20,9 +18,7 @@ import org.koin.android.ext.android.inject
 class MainActivity : AppCompatActivity() {
 
     private val fetchCurrentPriceUseCase: FetchCurrentPriceUseCase by inject()
-    private val observeCurrentPriceUseCase: ObserveCurrentPriceUseCase by inject()
-
-    private val observeSelectedCurrencyCodeUseCase: ObserveSelectedCurrencyCodeUseCase by inject()
+    private val observeCurrentPriceOfSelectedCurrencyUseCase: ObserveCurrentPriceOfSelectedCurrencyUseCase by inject()
 
     private val formatPriceUseCase: FormatPriceUseCase by inject()
 
@@ -45,23 +41,22 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        observeCurrentPriceUseCase()
-            .combine(observeSelectedCurrencyCodeUseCase()) { record, currencyCode ->
-                record?.prices?.find { it.currency.currencyCode == currencyCode }
-            }
+        observeCurrentPriceOfSelectedCurrencyUseCase()
             .flowWithLifecycle(lifecycle)
             .onEach {
+                val price = it?.price
+
                 binding {
                     conversionType {
-                        text = "BTC/${it?.currency?.currencyCode}"
+                        text = "BTC/${price?.currency?.currencyCode}"
                     }
 
-                    price {
-                        text = it?.formatToString() ?: "N/A"
+                    rate {
+                        text = price?.formatToString() ?: "N/A"
                     }
 
                     conversionView {
-                        sourcePrice = it
+                        sourcePrice = price
                     }
                 }
             }
