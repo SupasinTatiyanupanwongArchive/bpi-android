@@ -1,18 +1,16 @@
 package dev.supasintatiyanupanwong.apps.android.bpi
 
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dev.supasintatiyanupanwong.apps.android.bpi.currencies.domain.usecases.ObserveSelectedCurrencyCodeUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.currencies.ui.CurrencyCodePickerDialog
+import dev.supasintatiyanupanwong.apps.android.bpi.databinding.ActivityMainBinding
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.models.PriceInfo
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.FetchCurrentPriceUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.FormatPriceUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.ObserveCurrentPriceUseCase
-import dev.supasintatiyanupanwong.apps.android.bpi.prices.ui.widgets.ConversionView
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -28,38 +26,70 @@ class MainActivity : AppCompatActivity() {
 
     private val formatPriceUseCase: FormatPriceUseCase by inject()
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
+        binding = inflate(ActivityMainBinding::inflate)
+
+        binding {
+            setContentView(root)
+
+            refreshLayout {
+                setOnRefreshListener { this@MainActivity.invalidate() }
+            }
+
+            currencySelectButton {
+                setOnClickListener { CurrencyCodePickerDialog.show(it.context) }
+            }
+        }
 
         observeCurrentPriceUseCase()
             .combine(observeSelectedCurrencyCodeUseCase()) { record, currencyCode ->
                 record?.prices?.find { it.currency.currencyCode == currencyCode }
             }
             .flowWithLifecycle(lifecycle)
-            .onEach { price ->
-                findViewById<TextView>(R.id.conversion_type).text =
-                    "BTC/${price?.currency?.currencyCode}"
-                findViewById<TextView>(R.id.price).text =
-                    price?.let { "${it.currency.symbol} ${formatPriceUseCase(it.value)}" }
+            .onEach {
+                binding {
+                    conversionType {
+                        text = "BTC/${it?.currency?.currencyCode}"
+                    }
 
-                findViewById<ConversionView>(R.id.conversion_view).sourcePrice = price
+                    price {
+                        text = it?.formatToString() ?: "N/A"
+                    }
+
+                    conversionView {
+                        sourcePrice = it
+                    }
+                }
             }
             .launchIn(lifecycleScope)
 
-        findViewById<SwipeRefreshLayout>(R.id.refresh_layout).setOnRefreshListener { invalidate() }
-
-        findViewById<View>(R.id.currency_select).setOnClickListener { CurrencyCodePickerDialog.show(this) }
-
         invalidate()
+    }
+
+    private fun PriceInfo.formatToString(): String {
+        return "${currency.symbol} ${formatPriceUseCase(value)}"
     }
 
     private fun invalidate() {
         lifecycleScope.launch {
             fetchCurrentPriceUseCase()
-            findViewById<SwipeRefreshLayout>(R.id.refresh_layout).isRefreshing = false
+
+            binding {
+                refreshLayout {
+                    isRefreshing = false
+                }
+            }
         }
     }
 
+}
+
+
+inline operator fun <T> T.invoke(crossinline action: T.() -> Unit): T {
+    action()
+    return this
 }
