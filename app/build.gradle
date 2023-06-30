@@ -1,6 +1,4 @@
 android {
-    namespace 'dev.supasintatiyanupanwong.apps.android.bpi.app'
-
     defaultConfig {
         applicationId 'dev.supasintatiyanupanwong.apps.android.bpi'
     }

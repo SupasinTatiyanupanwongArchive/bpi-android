@@ -1,7 +1,3 @@
-android {
-    namespace 'dev.supasintatiyanupanwong.apps.android.bpi.base.data'
-}
-
 dependencies {
     api project(':platform:android')
 

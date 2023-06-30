@@ -19,6 +19,8 @@ subprojects {
         apply plugin: 'kotlin-android'
 
         android {
+            namespace 'dev.supasintatiyanupanwong.apps.android.bpi' +
+                    (projectDir.toString() - rootDir.toString()).replace('/', '.')
             compileSdkVersion 33
 
             defaultConfig {
