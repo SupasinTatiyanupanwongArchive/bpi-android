@@ -18,3 +18,20 @@ dependencyResolutionManagement {
 }
 
 include ':app'
+
+include ':currencies:data'
+include ':currencies:domain'
+include ':currencies:ui'
+
+include ':math:domain'
+
+include ':prices:data'
+include ':prices:domain'
+include ':prices:ui'
+
+include ':base:data'
+include ':base:domain'
+include ':base:ui'
+
+include ':platform:android'
+include ':platform:jvm'

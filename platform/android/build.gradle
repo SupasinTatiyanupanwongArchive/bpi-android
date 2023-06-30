@@ -1,0 +1,15 @@
+android {
+    namespace 'dev.supasintatiyanupanwong.apps.android.bpi.platform.android'
+}
+
+dependencies {
+    api project(':platform:jvm')
+
+    api 'androidx.core:core-ktx:1.10.1'
+
+    // Koin
+    api 'io.insert-koin:koin-android:3.2.0'
+
+    // Coroutines
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+}

@@ -1,0 +1,9 @@
+android {
+    namespace 'dev.supasintatiyanupanwong.apps.android.bpi.currencies.ui'
+}
+
+dependencies {
+    implementation project(':base:ui')
+
+    implementation project(':currencies:domain')
+}

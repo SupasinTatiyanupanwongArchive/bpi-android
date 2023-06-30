@@ -1,0 +1,14 @@
+android {
+    namespace 'dev.supasintatiyanupanwong.apps.android.bpi.base.ui'
+}
+
+dependencies {
+    api project(':platform:android')
+
+    api 'androidx.appcompat:appcompat:1.6.1'
+
+    api 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+
+    // Material
+    api 'com.google.android.material:material:1.9.0'
+}

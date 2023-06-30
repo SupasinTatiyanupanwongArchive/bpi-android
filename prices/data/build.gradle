@@ -1,0 +1,9 @@
+android {
+    namespace 'dev.supasintatiyanupanwong.apps.android.bpi.prices.data'
+}
+
+dependencies {
+    api project(':prices:domain')
+
+    implementation project(':base:data')
+}

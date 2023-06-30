@@ -1,0 +1,12 @@
+android {
+    namespace 'dev.supasintatiyanupanwong.apps.android.bpi.prices.ui'
+}
+
+dependencies {
+    implementation project(':base:ui')
+    implementation project(':currencies:ui')
+
+    implementation project(':prices:domain')
+
+    implementation 'com.github.PhilJay:MPAndroidChart:3.1.0'
+}
