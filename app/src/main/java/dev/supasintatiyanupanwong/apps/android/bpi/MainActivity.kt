@@ -15,8 +15,6 @@ import com.github.mikephil.charting.data.LineDataSet
 import dev.supasintatiyanupanwong.apps.android.bpi.currencies.ui.CurrencyCodePickerDialog
 import dev.supasintatiyanupanwong.apps.android.bpi.databinding.ActivityMainBinding
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.ui.PricesViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -73,56 +71,50 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.currentPriceOfSelectedCurrency()
-            .flowWithLifecycle(lifecycle)
-            .onEach {
-                val price = it?.price
+        viewModel.currentPriceOfSelectedCurrency.observe(this) {
+            val price = it?.price
 
-                binding {
-                    conversionType {
-                        text = "BTC/${price?.currency?.currencyCode}"
-                    }
+            binding {
+                conversionType {
+                    text = "BTC/${price?.currency?.currencyCode}"
+                }
 
-                    rate {
-                        text = viewModel.formatPriceAsString(price)
-                    }
+                rate {
+                    text = viewModel.formatPriceAsString(price)
+                }
 
-                    conversionView {
-                        sourcePrice = price
-                    }
+                conversionView {
+                    sourcePrice = price
                 }
             }
-            .launchIn(lifecycleScope)
+        }
 
-        viewModel.priceRecordsOfSelectedCurrency()
-            .flowWithLifecycle(lifecycle)
-            .onEach { records ->
-                entries = records.orEmpty()
-                    .map {
-                        Entry(
-                            // Cast toInt() first to take only LSB to ensure plotting precision
-                            it.timeMillis.toInt().toFloat(),
-                            it.price.value.toFloat()
-                        )
-                    }
+        viewModel.priceRecordsOfSelectedCurrency.observe(this) {
+            entries = it.orEmpty()
+                .map { record ->
+                    Entry(
+                        // Cast toInt() first to take only LSB to ensure plotting precision
+                        record.timeMillis.toInt().toFloat(),
+                        record.price.value.toFloat()
+                    )
+                }
 
-                binding {
-                    chart {
-                        data = LineData(
-                            LineDataSet(entries, null)
-                                .apply {
-                                    setDrawValues(false)
-                                    setDrawCircles(false)
+            binding {
+                chart {
+                    data = LineData(
+                        LineDataSet(entries, null)
+                            .apply {
+                                setDrawValues(false)
+                                setDrawCircles(false)
 
-                                    mode = LineDataSet.Mode.CUBIC_BEZIER
-                                    color = Color.parseColor("#F7931A")
-                                }
-                        )
-                        invalidate()
-                    }
+                                mode = LineDataSet.Mode.CUBIC_BEZIER
+                                color = Color.parseColor("#F7931A")
+                            }
+                    )
+                    invalidate()
                 }
             }
-            .launchIn(lifecycleScope)
+        }
     }
 
 }

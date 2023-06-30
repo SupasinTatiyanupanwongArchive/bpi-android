@@ -1,6 +1,7 @@
 package dev.supasintatiyanupanwong.apps.android.bpi.prices.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.models.PriceInfo
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.FetchCurrentPriceUseCase
@@ -12,10 +13,14 @@ import kotlinx.coroutines.launch
 
 class PricesViewModel(
     private val fetchCurrentPriceUseCase: FetchCurrentPriceUseCase,
-    private val observeCurrentPriceOfSelectedCurrencyUseCase: ObserveCurrentPriceOfSelectedCurrencyUseCase,
-    private val observePriceRecordsOfSelectedCurrencyUseCase: ObservePriceRecordsOfSelectedCurrencyUseCase,
+    observeCurrentPriceOfSelectedCurrencyUseCase: ObserveCurrentPriceOfSelectedCurrencyUseCase,
+    observePriceRecordsOfSelectedCurrencyUseCase: ObservePriceRecordsOfSelectedCurrencyUseCase,
     private val formatPriceUseCase: FormatPriceUseCase
 ) : ViewModel() {
+
+    val currentPriceOfSelectedCurrency = observeCurrentPriceOfSelectedCurrencyUseCase().asLiveData()
+
+    val priceRecordsOfSelectedCurrency = observePriceRecordsOfSelectedCurrencyUseCase().asLiveData()
 
     init {
         viewModelScope.launch {
@@ -25,10 +30,6 @@ class PricesViewModel(
             }
         }
     }
-
-    fun currentPriceOfSelectedCurrency() = observeCurrentPriceOfSelectedCurrencyUseCase()
-
-    fun priceRecordsOfSelectedCurrency() = observePriceRecordsOfSelectedCurrencyUseCase()
 
     fun formatPriceAsString(price: PriceInfo?) = formatPriceUseCase(price)
 
