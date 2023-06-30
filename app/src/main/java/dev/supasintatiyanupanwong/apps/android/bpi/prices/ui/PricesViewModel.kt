@@ -6,12 +6,14 @@ import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.models.PriceInf
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.FetchCurrentPriceUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.FormatPriceUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.ObserveCurrentPriceOfSelectedCurrencyUseCase
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.ObservePriceRecordsOfSelectedCurrencyUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PricesViewModel(
     private val fetchCurrentPriceUseCase: FetchCurrentPriceUseCase,
     private val observeCurrentPriceOfSelectedCurrencyUseCase: ObserveCurrentPriceOfSelectedCurrencyUseCase,
+    private val observePriceRecordsOfSelectedCurrencyUseCase: ObservePriceRecordsOfSelectedCurrencyUseCase,
     private val formatPriceUseCase: FormatPriceUseCase
 ) : ViewModel() {
 
@@ -25,6 +27,8 @@ class PricesViewModel(
     }
 
     fun currentPriceOfSelectedCurrency() = observeCurrentPriceOfSelectedCurrencyUseCase()
+
+    fun priceRecordsOfSelectedCurrency() = observePriceRecordsOfSelectedCurrencyUseCase()
 
     fun formatPriceAsString(price: PriceInfo?) = formatPriceUseCase(price)
 

@@ -12,6 +12,7 @@ import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.storages.PricesPr
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.FetchCurrentPriceUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.FormatPriceUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.ObserveCurrentPriceOfSelectedCurrencyUseCase
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.ObservePriceRecordsOfSelectedCurrencyUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.ParsePriceUseCase
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.ui.PricesViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -36,7 +37,8 @@ val pricesModule = module {
     factory { FetchCurrentPriceUseCase(get()) }
     factory { FormatPriceUseCase(get()) }
     factory { ObserveCurrentPriceOfSelectedCurrencyUseCase(get(), get()) }
+    factory { ObservePriceRecordsOfSelectedCurrencyUseCase(get(), get()) }
     factory { ParsePriceUseCase(get()) }
 
-    viewModel { PricesViewModel(get(), get(), get()) }
+    viewModel { PricesViewModel(get(), get(), get(), get()) }
 }

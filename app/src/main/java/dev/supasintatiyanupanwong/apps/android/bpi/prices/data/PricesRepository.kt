@@ -22,4 +22,8 @@ class PricesRepository(
         return localPricesDataSource.observeCurrentPrice()
     }
 
+    fun observePriceRecords(): Flow<List<PricesRecord>?> {
+        return localPricesDataSource.observePriceRecords()
+    }
+
 }
