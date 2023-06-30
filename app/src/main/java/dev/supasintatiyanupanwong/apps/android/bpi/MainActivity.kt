@@ -6,23 +6,16 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import dev.supasintatiyanupanwong.apps.android.bpi.currencies.ui.CurrencyCodePickerDialog
 import dev.supasintatiyanupanwong.apps.android.bpi.databinding.ActivityMainBinding
-import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.models.PriceInfo
-import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.FetchCurrentPriceUseCase
-import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.FormatPriceUseCase
-import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.ObserveCurrentPriceOfSelectedCurrencyUseCase
+import dev.supasintatiyanupanwong.apps.android.bpi.prices.ui.PricesViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val fetchCurrentPriceUseCase: FetchCurrentPriceUseCase by inject()
-    private val observeCurrentPriceOfSelectedCurrencyUseCase: ObserveCurrentPriceOfSelectedCurrencyUseCase by inject()
-
-    private val formatPriceUseCase: FormatPriceUseCase by inject()
-
     private lateinit var binding: ActivityMainBinding
+
+    private val viewModel: PricesViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,16 +25,12 @@ class MainActivity : AppCompatActivity() {
         binding {
             setContentView(root)
 
-            refreshLayout {
-                setOnRefreshListener { this@MainActivity.invalidate() }
-            }
-
             currencySelectButton {
                 setOnClickListener { CurrencyCodePickerDialog.show(it.context) }
             }
         }
 
-        observeCurrentPriceOfSelectedCurrencyUseCase()
+        viewModel.currentPriceOfSelectedCurrency()
             .flowWithLifecycle(lifecycle)
             .onEach {
                 val price = it?.price
@@ -52,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     rate {
-                        text = price?.formatToString() ?: "N/A"
+                        text = viewModel.formatPriceAsString(price)
                     }
 
                     conversionView {
@@ -61,24 +50,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             .launchIn(lifecycleScope)
-
-        invalidate()
-    }
-
-    private fun PriceInfo.formatToString(): String {
-        return "${currency.symbol} ${formatPriceUseCase(value)}"
-    }
-
-    private fun invalidate() {
-        lifecycleScope.launch {
-            fetchCurrentPriceUseCase()
-
-            binding {
-                refreshLayout {
-                    isRefreshing = false
-                }
-            }
-        }
     }
 
 }
