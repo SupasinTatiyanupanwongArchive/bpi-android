@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="prices_list_error_message">No data currently available. Please wait for a moment.</string>
+
+    <string name="prices_updated_at_label">Last updated</string>
+
+</resources>

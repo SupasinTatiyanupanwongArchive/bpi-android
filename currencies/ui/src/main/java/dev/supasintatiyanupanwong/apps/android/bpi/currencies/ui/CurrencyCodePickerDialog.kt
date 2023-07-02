@@ -31,7 +31,7 @@ object CurrencyCodePickerDialog : KoinComponent {
         var currCheckedItem = initCheckedItem
 
         val dialog = AlertDialog.Builder(context)
-            .setTitle("Select Currency")
+            .setTitle(R.string.currency_code_picker_dialog_title)
             .setSingleChoiceItems(items, initCheckedItem) { dialog, checkedItem ->
                 currCheckedItem = checkedItem
                 dialog.getPositiveButton()?.isEnabled = checkedItem != -1

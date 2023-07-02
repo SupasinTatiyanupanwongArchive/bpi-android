@@ -18,4 +18,6 @@ dependencies {
     implementation project(':prices:data')
     implementation project(':prices:domain')
     implementation project(':prices:ui')
+
+    implementation project(':time:domain')
 }

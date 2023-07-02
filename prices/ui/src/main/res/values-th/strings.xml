@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="prices_list_error_message">ไม่มีข้อมูลในขณะนี้ โปรดรอสักครู่</string>
+
+    <string name="prices_updated_at_label">ปรับปรุงล่าสุดเมื่อ</string>
+
+</resources>

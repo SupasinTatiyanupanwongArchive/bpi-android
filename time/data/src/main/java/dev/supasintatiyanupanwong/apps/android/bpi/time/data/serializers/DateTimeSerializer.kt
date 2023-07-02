@@ -1,11 +1,11 @@
-package dev.supasintatiyanupanwong.apps.android.bpi.base.data.serializers
+package dev.supasintatiyanupanwong.apps.android.bpi.time.data.serializers
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonNull
 import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
-import dev.supasintatiyanupanwong.apps.android.bpi.base.data.utils.ThreadSafeDateFormat
+import dev.supasintatiyanupanwong.apps.android.bpi.time.data.utils.ThreadSafeDateFormat
 import java.lang.reflect.Type
 
 open class DateTimeSerializer(

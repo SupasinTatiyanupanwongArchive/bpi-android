@@ -1,4 +1,4 @@
-package dev.supasintatiyanupanwong.apps.android.bpi.base.data.utils
+package dev.supasintatiyanupanwong.apps.android.bpi.time.data.utils
 
 import java.text.SimpleDateFormat
 import java.util.Date

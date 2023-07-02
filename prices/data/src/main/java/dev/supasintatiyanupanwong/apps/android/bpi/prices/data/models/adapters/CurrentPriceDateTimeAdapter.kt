@@ -5,8 +5,8 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
-import dev.supasintatiyanupanwong.apps.android.bpi.base.data.serializers.DateTimeDeserializer
-import dev.supasintatiyanupanwong.apps.android.bpi.base.data.serializers.DateTimeSerializer
+import dev.supasintatiyanupanwong.apps.android.bpi.time.data.serializers.DateTimeDeserializer
+import dev.supasintatiyanupanwong.apps.android.bpi.time.data.serializers.DateTimeSerializer
 import java.lang.reflect.Type
 
 class CurrentPriceDateTimeAdapter : JsonDeserializer<Long?>, JsonSerializer<Long?> {

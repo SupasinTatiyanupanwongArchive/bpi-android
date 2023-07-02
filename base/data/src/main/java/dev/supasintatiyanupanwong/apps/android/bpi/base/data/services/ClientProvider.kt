@@ -16,7 +16,7 @@ class ClientProvider {
         )
         .build()
 
-    fun provide(baseUrl: String) = Retrofit.Builder()
+    fun provide(baseUrl: String): Retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())

@@ -8,6 +8,7 @@ import dev.supasintatiyanupanwong.apps.android.bpi.math.domain.di.mathDomainModu
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.di.pricesDataModule
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.di.pricesDomainModule
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.ui.di.pricesUiModule
+import dev.supasintatiyanupanwong.apps.android.bpi.time.domain.di.timeDomainModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -27,7 +28,8 @@ class Application : Application() {
                 mathDomainModule,
                 pricesDataModule,
                 pricesDomainModule,
-                pricesUiModule
+                pricesUiModule,
+                timeDomainModule
             )
         }
     }

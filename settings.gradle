@@ -35,3 +35,5 @@ include ':base:ui'
 
 include ':platform:android'
 include ':platform:jvm'
+include ':time:domain'
+include ':time:data'

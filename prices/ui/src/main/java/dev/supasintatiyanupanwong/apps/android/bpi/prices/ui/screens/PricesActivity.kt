@@ -1,11 +1,10 @@
 package dev.supasintatiyanupanwong.apps.android.bpi.prices.ui.screens
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorInt
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isInvisible
 import androidx.core.view.updatePadding
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -13,6 +12,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import dev.supasintatiyanupanwong.apps.android.bpi.base.ui.BaseActivity
 import dev.supasintatiyanupanwong.apps.android.bpi.currencies.ui.CurrencyCodePickerDialog
+import dev.supasintatiyanupanwong.apps.android.bpi.platform.android.attrColorOf
 import dev.supasintatiyanupanwong.apps.android.bpi.platform.jvm.invoke
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.ui.databinding.PricesActivityBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -71,16 +71,40 @@ class PricesActivity : BaseActivity<PricesActivityBinding>() {
             }
         }
 
+        viewModel.loadingHint.observe(this) {
+            val isReady = !entries.isNullOrEmpty()
+
+            // Using isInvisible instead of isVisible or isGone to prevent layout re-measurement.
+            binding {
+                progress {
+                    isInvisible = !it || isReady
+                }
+
+                error {
+                    isInvisible = it || isReady
+                }
+
+                content {
+                    isInvisible = !isReady
+                }
+            }
+        }
+
         viewModel.currentPriceOfSelectedCurrency.observe(this) {
             val price = it?.price
 
             binding {
                 conversionType {
+                    @SuppressLint("SetTextI18n") // Untranslatable text
                     text = "BTC/${price?.currency?.currencyCode}"
                 }
 
                 rate {
                     text = viewModel.formatPriceAsString(price)
+                }
+
+                updatedAt {
+                    text = viewModel.formatDateTimeAsString(it?.timeMillis)
                 }
 
                 conversionView {
@@ -116,13 +140,4 @@ class PricesActivity : BaseActivity<PricesActivityBinding>() {
         }
     }
 
-}
-
-
-@ColorInt
-fun Context.attrColorOf(@AttrRes attrId: Int): Int {
-    val arr = obtainStyledAttributes(null, intArrayOf(attrId))
-    val color = arr.getColor(0, Color.TRANSPARENT)
-    arr.recycle()
-    return color
 }

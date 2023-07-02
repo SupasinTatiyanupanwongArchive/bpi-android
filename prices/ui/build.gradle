@@ -3,6 +3,7 @@ dependencies {
     implementation project(':currencies:ui')
 
     implementation project(':prices:domain')
+    implementation project(':time:domain')
 
     implementation 'com.github.PhilJay:MPAndroidChart:3.1.0'
 }
