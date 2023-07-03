@@ -4,3 +4,13 @@ data class PricesRecord(
     val timeMillis: Long,
     val prices: List<PriceInfo>
 )
+
+
+inline fun PricesRecord.find(predicate: (PriceInfo) -> Boolean): PriceRecord? {
+    val price = prices.find(predicate) ?: return null
+    return PriceRecord(
+        timeMillis = timeMillis,
+        disclaimer = disclaimer,
+        price = price
+    )
+}
