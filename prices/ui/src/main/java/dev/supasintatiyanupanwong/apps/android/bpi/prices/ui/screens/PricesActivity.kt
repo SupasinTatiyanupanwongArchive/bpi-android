@@ -25,6 +25,8 @@ class PricesActivity : BaseActivity<PricesActivityBinding>() {
 
     private val viewModel: PricesViewModel by viewModel()
 
+    private var isLoading = true
+
     private var entries: List<Entry>? = null
 
     private var disclaimerDialog: Dialog? = null
@@ -78,22 +80,8 @@ class PricesActivity : BaseActivity<PricesActivityBinding>() {
         }
 
         viewModel.loadingHint.observe(this) {
-            val isReady = !entries.isNullOrEmpty()
-
-            // Using isInvisible instead of isVisible or isGone to prevent layout re-measurement.
-            binding {
-                progress {
-                    isInvisible = !it || isReady
-                }
-
-                error {
-                    isInvisible = it || isReady
-                }
-
-                content {
-                    isInvisible = !isReady
-                }
-            }
+            isLoading = it
+            invalidateUiState()
         }
 
         viewModel.currentPriceOfSelectedCurrency.observe(this) {
@@ -127,6 +115,8 @@ class PricesActivity : BaseActivity<PricesActivityBinding>() {
                     }
                 }
             }
+
+            invalidateUiState()
         }
 
         viewModel.priceRecordsOfSelectedCurrency.observe(this) {
@@ -153,9 +143,30 @@ class PricesActivity : BaseActivity<PricesActivityBinding>() {
                     invalidate()
                 }
             }
+
+            invalidateUiState()
         }
     }
 
+
+    private fun invalidateUiState() {
+        val isReady = !entries.isNullOrEmpty()
+
+        // Using isInvisible instead of isVisible or isGone to prevent layout re-measurement.
+        binding {
+            progress {
+                isInvisible = !isLoading || isReady
+            }
+
+            error {
+                isInvisible = isLoading || isReady
+            }
+
+            content {
+                isInvisible = !isReady
+            }
+        }
+    }
 
     private fun showDisclaimerDialog(message: String) {
         if (disclaimerDialog != null) return

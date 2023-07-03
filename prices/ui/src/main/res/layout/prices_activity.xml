@@ -18,12 +18,14 @@
         android:layout_gravity="center"
         android:layout_margin="48dp"
         android:gravity="center"
-        android:text="@string/prices_list_error_message" />
+        android:text="@string/prices_list_error_message"
+        android:visibility="invisible" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="invisible">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scroll"
