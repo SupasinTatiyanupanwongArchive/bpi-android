@@ -10,7 +10,7 @@ import dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.usecases.ParseP
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.ui.PriceFormatTextWatcher
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.ui.databinding.PricesConversionViewBinding
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import org.koin.core.component.get
 import java.math.RoundingMode
 import kotlin.properties.Delegates
 
@@ -21,8 +21,8 @@ class ConversionView @JvmOverloads constructor(
 
     private val binding = attach(PricesConversionViewBinding::inflate)
 
-    private val formatPriceUseCase: FormatPriceUseCase by inject()
-    private val parsePriceUseCase: ParsePriceUseCase by inject()
+    private lateinit var formatPriceUseCase: FormatPriceUseCase
+    private lateinit var parsePriceUseCase: ParsePriceUseCase
 
     var sourcePrice by Delegates.observable<PriceInfo?>(null) { _, _, _ ->
         invalidateSourcePriceView()
@@ -32,11 +32,16 @@ class ConversionView @JvmOverloads constructor(
     init {
         orientation = VERTICAL
 
-        binding.src.addTextChangedListener(
-            PriceFormatTextWatcher(binding.src, formatPriceUseCase, parsePriceUseCase) {
-                invalidateDestinationPriceView()
-            }
-        )
+        if (!isInEditMode) {
+            formatPriceUseCase = get()
+            parsePriceUseCase = get()
+
+            binding.src.addTextChangedListener(
+                PriceFormatTextWatcher(binding.src, formatPriceUseCase, parsePriceUseCase) {
+                    invalidateDestinationPriceView()
+                }
+            )
+        }
     }
 
     private fun invalidateSourcePriceView() {
