@@ -2,6 +2,7 @@ package dev.supasintatiyanupanwong.apps.android.bpi.prices.domain.models
 
 data class PricesRecord(
     val timeMillis: Long,
+    val disclaimer: String?,
     val prices: List<PriceInfo>
 )
 

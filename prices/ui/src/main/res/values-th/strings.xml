@@ -3,6 +3,8 @@
 
     <string name="prices_list_error_message">ไม่มีข้อมูลในขณะนี้ โปรดรอสักครู่</string>
 
+    <string name="prices_disclaimer_title">ข้อจำกัดความรับผิดชอบ</string>
+
     <string name="prices_updated_at_label">ปรับปรุงล่าสุดเมื่อ</string>
 
 </resources>

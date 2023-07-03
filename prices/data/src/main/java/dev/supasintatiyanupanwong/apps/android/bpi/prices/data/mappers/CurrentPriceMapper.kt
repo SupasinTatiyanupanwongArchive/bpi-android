@@ -13,6 +13,7 @@ class CurrentPriceMapper(private val parsePriceUseCase: ParsePriceUseCase) {
         json ?: return null
 
         val timeMillis = json.time?.updatedAt ?: return null
+        val disclaimer = json.disclaimer
         val bpi = json.bpi ?: return null
 
         val prices = mutableListOf<PriceInfo>().apply {
@@ -24,6 +25,7 @@ class CurrentPriceMapper(private val parsePriceUseCase: ParsePriceUseCase) {
 
         return PricesRecord(
             timeMillis = timeMillis,
+            disclaimer = disclaimer,
             prices = prices
         )
     }

@@ -3,6 +3,8 @@
 
     <string name="prices_list_error_message">No data currently available. Please wait for a moment.</string>
 
+    <string name="prices_disclaimer_title">Disclaimer</string>
+
     <string name="prices_updated_at_label">Last updated</string>
 
 </resources>
