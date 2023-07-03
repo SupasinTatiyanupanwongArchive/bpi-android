@@ -1,6 +1,5 @@
 package dev.supasintatiyanupanwong.apps.android.bpi.currencies.data.datasources
 
-import dev.supasintatiyanupanwong.apps.android.bpi.currencies.data.preferences.CurrenciesPreferences
 import dev.supasintatiyanupanwong.apps.android.bpi.prices.data.datasources.LocalPricesDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -10,7 +9,7 @@ import java.util.Currency
 
 class CurrenciesDataSource(
     localPricesDataSource: LocalPricesDataSource,
-    private val currenciesPreferences: CurrenciesPreferences
+    private val selectedCurrencyCodeDataSource: SelectedCurrencyCodeDataSource
 ) {
 
     var currencies: List<Currency>? = null
@@ -33,11 +32,12 @@ class CurrenciesDataSource(
     private fun invalidateSelectedCurrencyCodeIfNeeded() {
         val currencies = currencies ?: return
 
-        val selectedCurrencyCode = currenciesPreferences.selectedCurrencyCode
+        val selectedCurrencyCode = selectedCurrencyCodeDataSource.selectedCurrencyCode
         if (selectedCurrencyCode == null ||
             currencies.find { it.currencyCode == selectedCurrencyCode } == null
         ) {
-            currenciesPreferences.selectedCurrencyCode = currencies.firstOrNull()?.currencyCode
+            selectedCurrencyCodeDataSource.selectedCurrencyCode =
+                currencies.firstOrNull()?.currencyCode
         }
     }
 
