@@ -13,7 +13,7 @@ class ObservePriceRecordsOfSelectedCurrencyUseCase(
     operator fun invoke() = pricesRepositoryContract.observePriceRecords()
         .combine(observeSelectedCurrencyCodeUseCase()) { records, currencyCode ->
             records?.mapNotNull { record ->
-                record.find { it.currency.currencyCode == currencyCode } ?: return@mapNotNull null
+                record.find { it.currency.currencyCode == currencyCode }
             }
         }
 

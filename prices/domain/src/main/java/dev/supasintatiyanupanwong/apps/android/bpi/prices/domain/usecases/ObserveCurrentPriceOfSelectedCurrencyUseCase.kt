@@ -12,7 +12,7 @@ class ObserveCurrentPriceOfSelectedCurrencyUseCase(
 
     operator fun invoke() = pricesRepositoryContract.observeCurrentPrice()
         .combine(observeSelectedCurrencyCodeUseCase()) { current, currencyCode ->
-            current?.find { it.currency.currencyCode == currencyCode } ?: return@combine null
+            current?.find { it.currency.currencyCode == currencyCode }
         }
 
 }
