@@ -19,21 +19,27 @@ dependencyResolutionManagement {
 
 include ':app'
 
-include ':currencies:data'
-include ':currencies:domain'
-include ':currencies:ui'
-
-include ':math:domain'
-
-include ':prices:data'
-include ':prices:domain'
-include ':prices:ui'
-
 include ':base:data'
+include ':base:di'
 include ':base:domain'
 include ':base:ui'
 
-include ':platform:android'
-include ':platform:jvm'
-include ':time:domain'
-include ':time:data'
+include ':modules:currencies:data'
+include ':modules:currencies:di'
+include ':modules:currencies:domain'
+include ':modules:currencies:ui'
+
+include ':modules:math:di'
+include ':modules:math:domain'
+
+include ':modules:prices:data'
+include ':modules:prices:di'
+include ':modules:prices:domain'
+include ':modules:prices:ui'
+
+include ':modules:time:data'
+include ':modules:time:di'
+include ':modules:time:domain'
+
+include ':platforms:android'
+include ':platforms:jvm'

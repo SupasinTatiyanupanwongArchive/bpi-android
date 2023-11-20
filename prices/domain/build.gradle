@@ -1,6 +1,0 @@
-dependencies {
-    api project(':base:domain')
-
-    implementation project(':math:domain')
-    implementation project(':currencies:domain')
-}

@@ -1,5 +1,5 @@
 dependencies {
-    api project(':platform:android')
+    api project(':platforms:android')
 
     api 'com.google.code.gson:gson:2.8.9'
 

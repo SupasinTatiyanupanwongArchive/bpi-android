@@ -1,5 +1,0 @@
-dependencies {
-    implementation project(':base:ui')
-
-    implementation project(':currencies:domain')
-}

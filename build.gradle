@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id 'com.android.application' version '8.0.2' apply false
     id 'com.android.library' version '8.0.2' apply false
@@ -6,11 +8,14 @@ plugins {
 }
 
 subprojects {
+    def moduleRelativePath = projectDir.toString() - rootDir.toString()
+
     if (name == 'app') {
         apply plugin: 'com.android.application'
-    } else if (name.endsWith('android')
-            || name.endsWith('data')
-            || name.endsWith('ui')
+    } else if (name == 'android'
+            || name == 'di'
+            || name == 'data'
+            || name == 'ui'
     ) {
         apply plugin: 'com.android.library'
     }
@@ -20,7 +25,7 @@ subprojects {
 
         android {
             namespace 'dev.supasintatiyanupanwong.apps.android.bpi' +
-                    (projectDir.toString() - rootDir.toString()).replace('/', '.')
+                    moduleRelativePath.replace(File.separator, '.')
             compileSdkVersion 33
 
             defaultConfig {
@@ -47,7 +52,24 @@ subprojects {
         }
     }
 
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    if (!moduleRelativePath.startsWith(File.separator + 'base' + File.separator)) {
+        dependencies {
+            if (name == 'app' || name == 'data') {
+                api project(':base:data')
+            }
+            if (name == 'app' || name == 'di') {
+                api project(':base:di')
+            }
+            if (name == 'app' || name == 'domain') {
+                api project(':base:domain')
+            }
+            if (name == 'app' || name == 'ui') {
+                api project(':base:ui')
+            }
+        }
+    }
+
+    tasks.withType(KotlinCompile).configureEach {
         kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
     }
 }

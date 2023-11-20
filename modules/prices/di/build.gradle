@@ -1,0 +1,11 @@
+dependencies {
+    implementation project(':modules:currencies:domain')
+
+    implementation project(':modules:prices:data')
+    implementation project(':modules:prices:domain')
+    implementation project(':modules:prices:ui')
+
+    implementation project(':modules:math:domain')
+
+    implementation project(':modules:time:domain')
+}

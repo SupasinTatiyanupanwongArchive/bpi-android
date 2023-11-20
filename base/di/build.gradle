@@ -1,0 +1,6 @@
+dependencies {
+    api project(':platforms:android')
+
+    implementation project(':base:data')
+    implementation project(':base:domain')
+}

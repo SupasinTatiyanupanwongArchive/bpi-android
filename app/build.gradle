@@ -5,19 +5,11 @@ android {
 }
 
 dependencies {
-    implementation project(':base:data')
-    implementation project(':base:domain')
-    implementation project(':base:ui')
+    implementation project(':modules:currencies:di')
 
-    implementation project(':currencies:data')
-    implementation project(':currencies:domain')
-    implementation project(':currencies:ui')
+    implementation project(':modules:math:di')
 
-    implementation project(':math:domain')
+    implementation project(':modules:prices:di')
 
-    implementation project(':prices:data')
-    implementation project(':prices:domain')
-    implementation project(':prices:ui')
-
-    implementation project(':time:domain')
+    implementation project(':modules:time:di')
 }
